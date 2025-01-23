@@ -7,15 +7,15 @@
 #define MAX_VERTICES 100
 #define INF 1000
 
-int parent[MAX_VERTICES]; // ºÎ¸ğ³ëµå ÀÎµ¦½º ÀúÀåÇÒ ¹è¿­
+int parent[MAX_VERTICES]; // ë¶€ëª¨ë…¸ë“œ ì¸ë±ìŠ¤ ì €ì¥í•  ë°°ì—´
 
 void init(int n) {
 	for (int i = 0; i < n; i++)
 		parent[i] = -1;
 }
 
-// curr°¡ ¼ÓÇÏ´Â ÁıÇÕÀ» ¹İÈ¯. »çÀÌÅ¬ Çü¼º È®ÀÎ
-int set_find(int curr) { // ¹İÈ¯ÇÑ 2°³ÀÇ ·çÆ®³ëµå°¡ °°Àº ÁıÇÕ¿¡ ¼ÓÇØÀÖ´Ù¸é, »çÀÌÅ¬ »ı¼º
+// currê°€ ì†í•˜ëŠ” ì§‘í•©ì„ ë°˜í™˜. ì‚¬ì´í´ í˜•ì„± í™•ì¸
+int set_find(int curr) { // ë°˜í™˜í•œ 2ê°œì˜ ë£¨íŠ¸ë…¸ë“œê°€ ê°™ì€ ì§‘í•©ì— ì†í•´ìˆë‹¤ë©´, ì‚¬ì´í´ ìƒì„±
 	if (parent[curr] == -1)
 		return curr;
 	while (parent[curr] != -1)
@@ -23,21 +23,21 @@ int set_find(int curr) { // ¹İÈ¯ÇÑ 2°³ÀÇ ·çÆ®³ëµå°¡ °°Àº ÁıÇÕ¿¡ ¼ÓÇØÀÖ´Ù¸é, »çÀÌ
 	return curr;
 }
 
-void set_union(int a, int b) { // µÎ°³ÀÇ ´Ù¸¥ ÁıÇÕÀ» ÇÏ³ª·Î º´ÇÕ
+void set_union(int a, int b) { // ë‘ê°œì˜ ë‹¤ë¥¸ ì§‘í•©ì„ í•˜ë‚˜ë¡œ ë³‘í•©
 	int root1 = set_find(a);
 	int root2 = set_find(b);
-	if (root1 != root2) // °°Àº ÁıÇÕÀ» º´ÇÕÇÏÁö ¾Ê¾Æ, »çÀÌÅ¬ Çü¼º ¹æÁö
+	if (root1 != root2) // ê°™ì€ ì§‘í•©ì„ ë³‘í•©í•˜ì§€ ì•Šì•„, ì‚¬ì´í´ í˜•ì„± ë°©ì§€
 		parent[root1] = root2;
 }
 
-struct Edge { // °£¼±À» ³ªÅ¸³»´Â ±¸Á¶Ã¼
-	int start, end, weight; // Edge ±¸Á¶Ã¼¿¡ º¯¼ö¸¦ ¼±¾ğÇØ¼­ ¸â¹ö¿¡ Á¢±Ù
+struct Edge { // ê°„ì„ ì„ ë‚˜íƒ€ë‚´ëŠ” êµ¬ì¡°ì²´
+	int start, end, weight; // Edge êµ¬ì¡°ì²´ì— ë³€ìˆ˜ë¥¼ ì„ ì–¸í•´ì„œ ë©¤ë²„ì— ì ‘ê·¼
 };
 
-typedef struct GraaphType {
-	int n; // °£¼±ÀÇ °³¼ö
-	int nvertex; // Á¤Á¡ÀÇ °³¼ö
-	struct Edge edges[2 * MAX_VERTICES]; // °£¼±ÀÇ Á¤º¸ ÀúÀå
+typedef struct GraphType {
+	int n; // ê°„ì„ ì˜ ê°œìˆ˜
+	int nvertex; // ì •ì ì˜ ê°œìˆ˜
+	struct Edge edges[2 * MAX_VERTICES]; // ê°„ì„ ì˜ ì •ë³´ ì €ì¥
 } GraphType;
 
 void graph_init(GraphType* g) {
@@ -62,21 +62,21 @@ int compare(const void* a, const void* b) { // qsort()
 }
 
 void kruskal(GraphType* g) {
-	int edge_accepted = 0; // ÇöÀç±îÁö ¼±ÅÃµÈ °£¼±ÀÇ ¼ö
-	int uset, vset; // Á¤Á¡ u¿Í Á¤Á¡ vÀÇ ÁıÇÕ ¹øÈ£
-	struct Edge e; // °£¼±¿¡ Á¢±ÙÇÏ±âÀ§ÇÑ º¯¼ö
+	int edge_accepted = 0; // í˜„ì¬ê¹Œì§€ ì„ íƒëœ ê°„ì„ ì˜ ìˆ˜
+	int uset, vset; // ì •ì  uì™€ ì •ì  vì˜ ì§‘í•© ë²ˆí˜¸
+	struct Edge e; // ê°„ì„ ì— ì ‘ê·¼í•˜ê¸°ìœ„í•œ ë³€ìˆ˜
 
 	set_init(g->nvertex); 
 	qsort(g->edges, g->n, sizeof(struct Edge), compare);
 
-	printf("Å©·ç½ºÄ® ÃÖ¼Ò ½ÅÀå Æ®¸® ¾Ë°í¸®Áò\n");
+	printf("í¬ë£¨ìŠ¤ì¹¼ ìµœì†Œ ì‹ ì¥ íŠ¸ë¦¬ ì•Œê³ ë¦¬ì¦˜\n");
 	int i = 0;
-	while (edge_accepted < (g->nvertex - 1)) { // °£¼±ÀÇ ¼ö < n-1
+	while (edge_accepted < (g->nvertex - 1)) { // ê°„ì„ ì˜ ìˆ˜ < n-1
 		e = g->edges[i];
-		uset = set_find(e.start); // Á¤Á¡uÀÇ ÁıÇÕ ¹øÈ£
-		vset = set_find(e.end); // Á¤Á¡vÀÇ ÁıÇÕ ¹øÈ£
+		uset = set_find(e.start); // ì •ì uì˜ ì§‘í•© ë²ˆí˜¸
+		vset = set_find(e.end); // ì •ì vì˜ ì§‘í•© ë²ˆí˜¸
 		if (uset != vset) {
-			printf("°£¼± (%d, %d) %d ¼±ÅÃ\n", e.start, e.end, e.weight);
+			printf("ê°„ì„  (%d, %d) %d ì„ íƒ\n", e.start, e.end, e.weight);
 			edge_accepted++;
 			set_union(uset, vset);
 		}
