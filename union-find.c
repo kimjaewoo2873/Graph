@@ -9,7 +9,7 @@
 
 int parent[MAX_VERTICES]; // 부모노드 인덱스 저장할 배열
 
-void init(int n) {
+void set_init(int n) {
 	for (int i = 0; i < n; i++)
 		parent[i] = -1;
 }
