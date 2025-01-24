@@ -45,13 +45,13 @@ void print_status(GraphType* g) {
 
 void shortest_path(GraphType* g, int start) {
 	int i, u, w;
-	for (i = 0; i < g->n; i++) { // 총n개의 정점 중, 시작정점은 처리했으므로 n-1개만 처리하면된다
+	for (i = 0; i < g->n; i++) { 
 		distance[i] = g->weight[start][i]; // 시작 정점부터 거리 초기화
 		found[i] = FALSE; 
 	}
 	found[start] = TRUE;
 	distance[start] = 0; // 시작 정점은 본인거리 "0"
-	for (i = 0; i < g->n - 1; i++) {
+	for (i = 0; i < g->n - 1; i++) { // 총n개의 정점 중, 시작정점은 처리했으므로 n-1개만 처리하면된다
 		print_status(g);
 		u = choose(distance, g->n, found); // 최단경로 정점 찾기
 		found[u] = TRUE;
