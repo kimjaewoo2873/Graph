@@ -7,23 +7,23 @@
 #define INF 1000000
 
 typedef struct GraphType {
-	int n; // Á¤Á¡ÀÇ °³¼ö
-	int weight[MAX_VERTICES][MAX_VERTICES]; // °¢ Á¤Á¡¿¡¼­ ´Ù¸¥Á¤Á¡±îÁöÀÇ °¡ÁßÄ¡ ÀúÀå
+	int n; // ì •ì ì˜ ê°œìˆ˜
+	int weight[MAX_VERTICES][MAX_VERTICES]; // ê° ì •ì ì—ì„œ ë‹¤ë¥¸ì •ì ê¹Œì§€ì˜ ê°€ì¤‘ì¹˜ ì €ì¥
 }GraphType;
 
-int distance[MAX_VERTICES]; // °¢ Á¤Á¡±îÁöÀÇ °¡Àå ÂªÀº ¾Ë·ÁÁø °Å¸®¸¦ ÀúÀå
-int found[MAX_VERTICES]; // º¡¹®ÇÑ Á¤Á¡ Ç¥½Ã / 1: ¹æ¹®, 0: x
+int distance[MAX_VERTICES]; // ê° ì •ì ê¹Œì§€ì˜ ê°€ì¥ ì§§ì€ ì•Œë ¤ì§„ ê±°ë¦¬ë¥¼ ì €ì¥
+int found[MAX_VERTICES]; // ë²™ë¬¸í•œ ì •ì  í‘œì‹œ / 1: ë°©ë¬¸, 0: x
 
-int choose(int distance[], int n, int found[]) { // ÃÖ´Ü°æ·Î Á¤Á¡ Ã£±â
+int choose(int distance[], int n, int found[]) { // ìµœë‹¨ê²½ë¡œ ì •ì  ì°¾ê¸°
 	int i, min, minpos;
-	min = INT_MAX; // ¹«ÇÑ´ë·Î ÃÊ±âÈ­
-	minpos = -1; // Á¤Á¡ ÀÎµ¦½º ÀúÁ¤ÇÒ º¯¼ö
-	for(i = 0; i < n; i++) // °¡Àå ÂªÀº°Å¸®ÀÇ Á¤Á¡À» Ã£¾Æ ÀÎµ¦½º ÀúÀå
+	min = INT_MAX; // ë¬´í•œëŒ€ë¡œ ì´ˆê¸°í™”
+	minpos = -1; // ì •ì  ì¸ë±ìŠ¤ ì €ì •í•  ë³€ìˆ˜
+	for(i = 0; i < n; i++) // ê°€ì¥ ì§§ì€ê±°ë¦¬ì˜ ì •ì ì„ ì°¾ì•„ ì¸ë±ìŠ¤ ì €ì¥
 		if (distance[i] < min && !found[i]) { 
-			min = distance[i]; // distance¹è¿­¿¡ ÀúÀåµÈ °ªµé ºñ±³ÇÏ±âÀ§ÇØ
-			minpos = i; // ÀÎµ¦½º°ª ÀúÀå
+			min = distance[i]; // distanceë°°ì—´ì— ì €ì¥ëœ ê°’ë“¤ ë¹„êµí•˜ê¸°ìœ„í•´
+			minpos = i; // ì¸ë±ìŠ¤ê°’ ì €ì¥
 		}
-	return minpos; // °¡Àå ÂªÀº °Å¸®¸¦ °®´Â Á¤Á¡¹øÈ£ ¹İÈ¯
+	return minpos; // ê°€ì¥ ì§§ì€ ê±°ë¦¬ë¥¼ ê°–ëŠ” ì •ì ë²ˆí˜¸ ë°˜í™˜
 }
 
 void print_status(GraphType* g) {
@@ -45,18 +45,18 @@ void print_status(GraphType* g) {
 
 void shortest_path(GraphType* g, int start) {
 	int i, u, w;
-	for (i = 0; i < g->n; i++) {
-		distance[i] = g->weight[start][i]; // ½ÃÀÛ Á¤Á¡ºÎÅÍ °Å¸® ÃÊ±âÈ­
+	for (i = 0; i < g->n; i++) { // ì´nê°œì˜ ì •ì  ì¤‘, ì‹œì‘ì •ì ì€ ì²˜ë¦¬í–ˆìœ¼ë¯€ë¡œ n-1ê°œë§Œ ì²˜ë¦¬í•˜ë©´ëœë‹¤
+		distance[i] = g->weight[start][i]; // ì‹œì‘ ì •ì ë¶€í„° ê±°ë¦¬ ì´ˆê¸°í™”
 		found[i] = FALSE; 
 	}
 	found[start] = TRUE;
-	distance[start] = 0; // ½ÃÀÛ Á¤Á¡Àº º»ÀÎ°Å¸® "0"
+	distance[start] = 0; // ì‹œì‘ ì •ì ì€ ë³¸ì¸ê±°ë¦¬ "0"
 	for (i = 0; i < g->n - 1; i++) {
 		print_status(g);
-		u = choose(distance, g->n, found); // ÃÖ´Ü°æ·Î Á¤Á¡ Ã£±â
+		u = choose(distance, g->n, found); // ìµœë‹¨ê²½ë¡œ ì •ì  ì°¾ê¸°
 		found[u] = TRUE;
 		for (w = 0; w < g->n; w++)
-			if (!found[w]) // ¹æ¹®ÇÑ Á¤Á¡µéÀÇ °Å¸®´Â ÇÊ¿ä¾øÀ½
+			if (!found[w]) // ë°©ë¬¸í•œ ì •ì ë“¤ì˜ ê±°ë¦¬ëŠ” í•„ìš”ì—†ìŒ
 				if (distance[u] + g->weight[u][w] < distance[w])
 					distance[w] = distance[u] + g->weight[u][w];
 	}
